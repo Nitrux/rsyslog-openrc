@@ -1,0 +1,5 @@
+rsyslog-openrc (0.0.1)  nitrux; urgency=medium
+
+  * Create package.
+
+ -- Uri Herrera <uri_herrera@nxos.org>  Tue, 04 Jun 2024 23:17:00 -0500
