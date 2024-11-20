@@ -22,10 +22,10 @@ start_pre() {
     fi
 
     # Read configuration variable file if it is present
-    if [ -r /etc/default/rsyslog ]; then
-        . "/etc/default/rsyslog"
+    if [ -r /etc/rsyslog.conf ]; then
+        . "/etc/rsyslog.conf"
     else
-        ewarn "Configuration file /etc/default/rsyslog not found"
+        ewarn "Configuration file /etc/rsyslog.conf not found"
     fi
 }
 
