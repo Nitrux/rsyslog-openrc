@@ -1,3 +1,9 @@
+rsyslog-openrc (0.0.4)  nitrux; urgency=medium
+
+  * Fix the goddamn script.
+
+ -- Uri Herrera <uri_herrera@nxos.org>  Thu, 21 Nov 2024 00:38:00 -0500
+
 rsyslog-openrc (0.0.3)  nitrux; urgency=medium
 
   * Don't explicitly call the configuration file.
