@@ -1,45 +1,27 @@
 #!/sbin/openrc-run
 
 description="Rsyslog is an enhanced multi-threaded syslogd"
+description_start="Starting enhanced syslogd"
+description_stop="Stopping enhanced syslogd"
 
-command="/usr/sbin/rsyslogd"
-pidfile="/run/rsyslogd.pid"
+DAEMON=/usr/sbin/rsyslogd
+PIDFILE=/run/rsyslogd.pid
 
 depend() {
     need mountall
     after bootmisc
 }
 
-sendsigs_omit() {
-    local omitdir="/run/sendsigs.omit.d"
-    mkdir -p "$omitdir"
-    ln -sf "${pidfile}" "$omitdir/rsyslog"
-}
-
 start() {
-    ebegin "Starting Rsyslog"
+    ebegin "${description_start}"
+    create_xconsole
+    start-stop-daemon --start --quiet --pidfile ${PIDFILE} --exec ${DAEMON} -- ${RSYSLOGD_OPTIONS}
     sendsigs_omit
-    start-stop-daemon --start --exec "${command}" --pidfile "${pidfile}" --background
     eend $?
 }
 
 stop() {
-    ebegin "Stopping Rsyslog"
-    if [ -f "${pidfile}" ]; then
-        local pid
-        pid=$(cat "${pidfile}")
-        if kill "${pid}" 2>/dev/null; then
-            sleep 1
-            if kill -0 "${pid}" 2>/dev/null; then
-                kill -9 "${pid}" 2>/dev/null
-            fi
-            rm -f "${pidfile}"
-            eend 0
-        else
-            eend 1
-        fi
-    else
-        eerror "PID file not found"
-        eend 1
-    fi
+    ebegin "${description_stop}"
+    start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile ${PIDFILE} --exec ${DAEMON}
+    eend $?
 }
