@@ -1,3 +1,9 @@
+rsyslog-openrc (0.0.5)  nitrux; urgency=medium
+
+  * Fix the goddamn script AGAIN.
+
+ -- Uri Herrera <uri_herrera@nxos.org>  Thu, 21 Nov 2024 01:8:00 -0500
+
 rsyslog-openrc (0.0.4)  nitrux; urgency=medium
 
   * Fix the goddamn script since we don't need or use xconsole.
