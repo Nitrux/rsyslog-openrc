@@ -19,8 +19,7 @@ sendsigs_omit() {
 start() {
     ebegin "Starting Rsyslog"
     sendsigs_omit
-    "${command}" &
-    echo $! > "${pidfile}"
+    start-stop-daemon --start --exec "${command}" --pidfile "${pidfile}" --background
     eend $?
 }
 
@@ -30,12 +29,17 @@ stop() {
         local pid
         pid=$(cat "${pidfile}")
         if kill "${pid}" 2>/dev/null; then
+            sleep 1
+            if kill -0 "${pid}" 2>/dev/null; then
+                kill -9 "${pid}" 2>/dev/null
+            fi
             rm -f "${pidfile}"
             eend 0
         else
             eend 1
         fi
     else
+        eerror "PID file not found"
         eend 1
     fi
 }
