@@ -21,7 +21,6 @@ sendsigs_omit() {
 
 start() {
     ebegin "${description_start}"
-    create_xconsole
     start-stop-daemon --start --quiet --pidfile ${PIDFILE} --exec ${DAEMON} -- ${RSYSLOGD_OPTIONS}
     sendsigs_omit
     eend $?
