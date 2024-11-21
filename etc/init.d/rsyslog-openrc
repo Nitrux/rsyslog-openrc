@@ -19,6 +19,7 @@ sendsigs_omit() {
 start() {
     ebegin "Starting Rsyslog"
     sendsigs_omit
+    "${command}" &
     echo $! > "${pidfile}"
     eend $?
 }
@@ -26,8 +27,14 @@ start() {
 stop() {
     ebegin "Stopping Rsyslog"
     if [ -f "${pidfile}" ]; then
-        kill "$(cat "${pidfile}")" && rm -f "${pidfile}"
-        eend $?
+        local pid
+        pid=$(cat "${pidfile}")
+        if kill "${pid}" 2>/dev/null; then
+            rm -f "${pidfile}"
+            eend 0
+        else
+            eend 1
+        fi
     else
         eend 1
     fi
