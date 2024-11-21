@@ -1,8 +1,15 @@
+rsyslog-openrc (0.0.3)  nitrux; urgency=medium
+
+  * Don't explicitly call the configuration file.
+  * Simplify the init script.
+
+ -- Uri Herrera <uri_herrera@nxos.org>  Wed, 20 Nov 2024 22:15:00 -0500
+
 rsyslog-openrc (0.0.2)  nitrux; urgency=medium
 
   * Fix path of configuration file.
 
- -- Uri Herrera <uri_herrera@nxos.org>  Wed, 20 Nov 2024 23:17:00 -0500
+ -- Uri Herrera <uri_herrera@nxos.org>  Wed, 20 Nov 2024 05:28:00 -0500
 
 rsyslog-openrc (0.0.1)  nitrux; urgency=medium
 
