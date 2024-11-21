@@ -10,6 +10,19 @@ depend() {
     after bootmisc
 }
 
+create_xconsole() {
+    local xconsole="/dev/xconsole"
+    if [ "$(uname -s)" != "Linux" ]; then
+        xconsole="/run/xconsole"
+        ln -sf "$xconsole" /dev/xconsole
+    fi
+    if [ ! -e "$xconsole" ]; then
+        mknod -m 640 "$xconsole" p
+        chown root:adm "$xconsole"
+        [ -x /sbin/restorecon ] && /sbin/restorecon "$xconsole"
+    fi
+}
+
 sendsigs_omit() {
     local omitdir="/run/sendsigs.omit.d"
     mkdir -p "$omitdir"
@@ -18,6 +31,7 @@ sendsigs_omit() {
 
 start() {
     ebegin "Starting Rsyslog"
+    create_xconsole
     sendsigs_omit
     echo $! > "${pidfile}"
     eend $?
