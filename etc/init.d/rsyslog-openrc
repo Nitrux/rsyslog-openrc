@@ -6,10 +6,17 @@ description_stop="Stopping enhanced syslogd"
 
 DAEMON=/usr/sbin/rsyslogd
 PIDFILE=/run/rsyslogd.pid
+RSYSLOGD_OPTIONS=""
 
 depend() {
     need mountall
     after bootmisc
+}
+
+sendsigs_omit() {
+    OMITDIR=/run/sendsigs.omit.d
+    mkdir -p $OMITDIR
+    ln -sf $PIDFILE $OMITDIR/rsyslog
 }
 
 start() {
