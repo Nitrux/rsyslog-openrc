@@ -1,3 +1,9 @@
+rsyslog-openrc (0.0.6)  nitrux; urgency=medium
+
+  * Refactor and rename service files.
+
+ -- Uri Herrera <uri_herrera@nxos.org>  Thu, 17 Jul 2025 17:11:00 -0500
+
 rsyslog-openrc (0.0.5)  nitrux; urgency=medium
 
   * Fix the goddamn script AGAIN.

@@ -1,33 +1,19 @@
 #!/sbin/openrc-run
+# Copyright (c) 2007-2021 The Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
 
-description="Rsyslog is an enhanced multi-threaded syslogd"
-description_start="Starting enhanced syslogd"
-description_stop="Stopping enhanced syslogd"
+description="Starts the rsyslogd enhanced system logging daemon"
+command="/usr/sbin/rsyslogd"
+command_args="-n ${RSYSLOG_OPTS}"
+pidfile="/run/rsyslogd.pid"
 
-DAEMON=/usr/sbin/rsyslogd
-PIDFILE=/run/rsyslogd.pid
-RSYSLOGD_OPTIONS=""
+# Using supervise-daemon tells OpenRC to monitor this critical daemon
+# and automatically handles protecting it from being killed during shutdown.
+supervisor=supervise-daemon
 
 depend() {
-    need mountall
-    after bootmisc
-}
-
-sendsigs_omit() {
-    OMITDIR=/run/sendsigs.omit.d
-    mkdir -p $OMITDIR
-    ln -sf $PIDFILE $OMITDIR/rsyslog
-}
-
-start() {
-    ebegin "${description_start}"
-    start-stop-daemon --start --quiet --pidfile ${PIDFILE} --exec ${DAEMON} -- ${RSYSLOGD_OPTIONS}
-    sendsigs_omit
-    eend $?
-}
-
-stop() {
-    ebegin "${description_stop}"
-    start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile ${PIDFILE} --exec ${DAEMON}
-    eend $?
+	# Rsyslog provides the system logger.
+	provide logger
+	# It should start after basic boot tasks are complete.
+	after bootmisc
 }
