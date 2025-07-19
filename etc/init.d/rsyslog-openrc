@@ -2,16 +2,10 @@
 
 description="Starts the rsyslogd enhanced system logging daemon"
 command="/usr/sbin/rsyslogd"
-command_args="-n ${RSYSLOG_OPTS}"
-pidfile="/run/rsyslogd.pid"
-
-# Using supervise-daemon tells OpenRC to monitor this critical daemon
-# and automatically handles protecting it from being killed during shutdown.
+command_args="-n"
 supervisor=supervise-daemon
 
 depend() {
-	# Rsyslog provides the system logger.
 	provide logger
-	# It should start after basic boot tasks are complete.
 	after bootmisc
 }
